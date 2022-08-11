@@ -7,7 +7,7 @@ module Mongoid::Search::Util
       end
     elsif fields.is_a?(Hash)
       fields.keys.map do |field|
-        attribute = klass.send(field)
+        attribute = klass.respond_to?(field) ? klass.send(field) : klass[field]
         unless attribute.blank?
           if attribute.is_a?(Array)
             attribute.map { |a| keywords(a, fields[field]) }
